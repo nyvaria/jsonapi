@@ -2,6 +2,10 @@ JSONAPI is a plugin for Bukkit that allows you to access data and other informat
 
 However, this plugin won't do all of that by itself. It is simply an API that allows you to assemble the features in a way that makes sense for your needs.
 
+## Why this Fork?
+
+Because sending messages to an external server (Adminium) without the consent of the plugin user. Is just plain wrong. This version has adminium ripped out. I'll only start using the upstream again if Adminium can be disabled AND is disabled by default!
+
 ## Download
 
 [Download JSONAPI](https://github.com/alecgorge/jsonapi/releases)
