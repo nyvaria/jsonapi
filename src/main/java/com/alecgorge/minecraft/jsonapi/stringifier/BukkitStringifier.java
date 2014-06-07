@@ -34,8 +34,6 @@ import org.json.simpleForBukkit.JSONArray;
 import org.json.simpleForBukkit.JSONObject;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
-import com.alecgorge.minecraft.jsonapi.adminium.Adminium3;
-import com.alecgorge.minecraft.jsonapi.adminium.PushNotificationDaemon.AdminiumPushNotification;
 import com.alecgorge.minecraft.jsonapi.config.JSONAPIPermissionNode;
 import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIGroup;
 import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIUser;
@@ -71,8 +69,6 @@ public class BukkitStringifier {
 		handle.put("JSONAPIGroup", JSONAPIGroup.class);
 		handle.put("JSONAPIPermissionNode", JSONAPIPermissionNode.class);
 		handle.put("Object[]", java.lang.Object[].class);
-		handle.put("AdminiumPushNotification", AdminiumPushNotification.class);
-		handle.put("Adminium3.AdminiumPushNotification", Adminium3.AdminiumPushNotification.class);
 		handle.put("Date", Date.class);
 
 		if (JSONAPI.instance.getServer().getPluginManager().getPlugin("Vault") != null) {
@@ -181,7 +177,7 @@ public class BukkitStringifier {
 			
 			List<String> playerNames = new ArrayList<String>();
 			for(Player p : w.getPlayers()) {
-				if(!p.getName().equals("¤fHerobrine")) {
+				if(!p.getName().equals("ï¿½fHerobrine")) {
 					playerNames.add(p.getName());
 				}
 			}
@@ -313,22 +309,6 @@ public class BukkitStringifier {
 			o.put("errorMessage", r.errorMessage);
 			o.put("type", r.type.toString());
 
-			return o;
-		} else if (obj instanceof Adminium3.AdminiumPushNotification) {
-			JSONObject o = new JSONObject();
-			Adminium3.AdminiumPushNotification not = (Adminium3.AdminiumPushNotification)obj;
-			
-			o.put("date", not.getDateSent());
-			o.put("message", not.getMessage());
-			
-			return o;			
-		} else if(obj instanceof AdminiumPushNotification) {
-			JSONObject o = new JSONObject();
-			AdminiumPushNotification not = (AdminiumPushNotification)obj;
-			
-			o.put("date", not.getDateSent());
-			o.put("message", not.getMessage());
-			
 			return o;
 		} else if (obj instanceof Date) {
 			return dateFormat.format((Date)obj);

@@ -16,7 +16,7 @@
 	<groupId>com.alecgorge.minecraft.jsonapi</groupId>
 	<artifactId>JSONAPI</artifactId>
 	<packaging>jar</packaging>
-	<version>${jsonapiVersion}-mc${cbVersion}</version>
+	<version>${jsonapiVersion}-mc${cbVersion}-nyvaria</version>
 	<name>JSONAPI</name>
 	<url>http://github.com/alecgorge/jsonapi</url>
 	<scm>

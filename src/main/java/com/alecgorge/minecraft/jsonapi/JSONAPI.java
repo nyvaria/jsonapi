@@ -41,8 +41,6 @@ import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterface;
-import com.alecgorge.minecraft.jsonapi.adminium.Adminium3;
-import com.alecgorge.minecraft.jsonapi.adminium.PushNotificationDaemon;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPICallHandler;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIStream;
 import com.alecgorge.minecraft.jsonapi.api.StreamPusher;
@@ -108,9 +106,6 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	// for dynamic access
 	public static JSONAPI instance;
 
-	PushNotificationDaemon adminium;
-	Adminium3 adminium3;
-	
 	GroupManager groupManager;
 	
 	JSONAPINettyInjector injector = null;
@@ -569,9 +564,6 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 
 			initialiseListeners();
 
-			adminium = new PushNotificationDaemon(new File(getDataFolder(), "adminium.yml"), this);
-			adminium3 = new Adminium3(this);
-						
 			tickRateCounter = new TickRateCounter(this);
 			
 			//#if mc17OrNewer=="yes"
@@ -613,15 +605,6 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			 * System.out.println(sender.getName() + ": " +
 			 * join(Arrays.asList(args), " ")); return true; }
 			 */
-		}
-		if (args.length >= 1 && cmd.getName().equals("calladmin")) {
-			adminium3.calladmin(sender, join(Arrays.asList(args), " "));
-			
-			// adminium 2.x
-			if(adminium.init)
-				adminium.calladmin(sender, join(Arrays.asList(args), " "));
-			
-			return true;
 		}
 
 		if (cmd.getName().equals("jsonapi") && (sender.hasPermission("jsonapi.command") || sender instanceof ConsoleCommandSender)) {
@@ -703,69 +686,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 					return true;
 				}
 			}
-		} /*else if (cmd.getName().equals("adminium")) {
-			if (!adminium.init) {
-				sender.sendMessage(ChatColor.RED + "You need Adminium for that.");
-				return true;
-			}
-
-			if (args.length == 0) {
-				sender.sendMessage(ChatColor.RED + "/adminium [user (username)|create-user (username) (group name)|set-group (username) (group name)|list-groups]");
-				return true;
-			}
-
-			String sub = args[0];
-			if (args.length == 2 && sub.equals("user")) {
-				String username = args[1];
-
-				if (!adminium.groupAssignments.containsKey(username)) {
-					sender.sendMessage(ChatColor.GREEN + username + " has access to everything and is not in a group.");
-					return true;
-				}
-
-				sender.sendMessage(ChatColor.GREEN + username + " is in the group " + adminium.groupAssignments.get(username));
-				return true;
-			} else if (args.length == 3 && (sub.equals("create-user") || sub.equals("set-group"))) {
-				try {
-					String username = args[1];
-					String groupName = args[2];
-
-					if (!adminium.groupPerms.containsKey(groupName)) {
-						sender.sendMessage(ChatColor.RED + groupName + " is a non-existant group!");
-						return true;
-					}
-
-					String pass = "";
-					if (!getJSONServer().getLogins().containsKey(username)) {
-						pass = genPassword();
-						getJSONServer().getLogins().put(username, pass);
-
-						yamlConfig.set("logins", getJSONServer().getLogins());
-						yamlConfig.save(yamlFile);
-					} else {
-						pass = getJSONServer().getLogins().get(username);
-					}
-
-					adminium.groupAssignments.put(username, groupName);
-					adminium.saveConfig();
-
-					sender.sendMessage(ChatColor.GREEN + "This user has the following information");
-					sender.sendMessage(ChatColor.GREEN + "Username: " + username);
-					sender.sendMessage(ChatColor.GREEN + "Password: " + pass);
-					sender.sendMessage(ChatColor.GREEN + "Group name: " + groupName);
-					sender.sendMessage(ChatColor.GREEN + "Salt: " + salt);
-				} catch (IOException e) {
-					sender.sendMessage(ChatColor.RED + "Error: " + e.getMessage());
-					e.printStackTrace();
-				}
-				return true;
-			} else if (args.length == 1 && sub.equals("list-groups")) {
-				sender.sendMessage(ChatColor.GREEN + join(new ArrayList<String>(adminium.groupPerms.keySet()), ", "));
-				return true;
-			}
-
-			return true;
-		}*/
+		}
 
 		return false;
 	}
